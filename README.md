@@ -31,5 +31,9 @@ src/Sysight/bin/.../Sysight.exe --shots docs/screenshots   # regenerate Store sc
 - `packaging/`: MSIX manifest template, build script, asset generator
 - `docs/`: Store listing, submission guide, privacy policy, screenshots
 
-## Privacy
-No telemetry and no network calls. See [docs/privacy.html](docs/privacy.html).
+## Privacy and terms
+No telemetry and no network calls. See the [Privacy Policy](https://niksheyyadav.github.io/sysight/privacy.html) and [Terms of Use](https://niksheyyadav.github.io/sysight/terms.html).
+
+Third-party licenses: [THIRD-PARTY-NOTICES.txt](src/Sysight/THIRD-PARTY-NOTICES.txt).
+
+Microsoft, Windows and Microsoft Edge are trademarks of the Microsoft group of companies. Sysight is not affiliated with Microsoft.

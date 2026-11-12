@@ -2,36 +2,54 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sysight Privacy Policy</title>
 <style>
-:root{--bg:#ffffff;--fg:#16202b;--muted:#5d6b7a}
-@media (prefers-color-scheme:dark){:root{--bg:#0f141a;--fg:#e3e9ef;--muted:#93a1b0}}
+:root{--bg:#ffffff;--fg:#16202b;--muted:#5d6b7a;--line:#dbe2ea}
+@media (prefers-color-scheme:dark){:root{--bg:#0f141a;--fg:#e3e9ef;--muted:#93a1b0;--line:#26313d}}
 body{background:var(--bg);color:var(--fg);font:16px/1.65 "Segoe UI",system-ui,sans-serif;max-width:720px;margin:0 auto;padding:40px 20px}
 h1{font-size:28px;margin:0 0 4px}h2{font-size:18px;margin:28px 0 6px}p,li{max-width:68ch}.m{color:var(--muted)}
+code{font-size:14px}table{border-collapse:collapse;width:100%;font-size:15px}td,th{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top}
+a{color:inherit}
 </style></head><body>
 <h1>Sysight Privacy Policy</h1>
-<p class="m">Effective 12 November 2026</p>
+<p class="m">Effective 12 November 2026 · Applies to Sysight version 1.0 and later for Windows</p>
 
-<h2>Summary</h2>
-<p>Sysight does not collect, store, sell or send any personal data. It has no accounts, no analytics, no ads and no telemetry, and it makes no network requests of its own.</p>
+<h2>1. Who we are</h2>
+<p>Sysight is published by <b>astrosurfr</b>, an individual developer based in India ("we", "us"). For any privacy question or request, contact us through the issue tracker at <a href="https://github.com/NiksheyYadav/sysight/issues">github.com/NiksheyYadav/sysight/issues</a> or through the support contact on the Sysight Microsoft Store page.</p>
 
-<h2>What Sysight reads on your PC</h2>
-<p>To do its job, Sysight reads information that is already on your computer: running processes, network connections, services, kernel drivers, startup entries, installed apps, and folder sizes. This information is shown to you on screen and is never transmitted anywhere.</p>
+<h2>2. Summary</h2>
+<p>Sysight runs entirely on your computer. We do not collect, receive, store, sell or share any personal data. Sysight has no accounts, no analytics, no advertising and no telemetry, and the app itself makes no network requests.</p>
 
-<h2>What Sysight saves on your PC</h2>
+<h2>3. Information Sysight reads on your device</h2>
+<p>To show you what is running on your PC, Sysight reads information that already exists on your device, only while you use it:</p>
+<table>
+<tr><th>What</th><th>Why</th></tr>
+<tr><td>Running processes, their file paths and publishers</td><td>Processes view</td></tr>
+<tr><td>Network connections and listening ports</td><td>Network view</td></tr>
+<tr><td>Services, kernel drivers and their signatures</td><td>Services and Kernel drivers views</td></tr>
+<tr><td>Startup entries and installed apps</td><td>Startup and Installed apps views</td></tr>
+<tr><td>Folder and file names and sizes</td><td>Storage explorer and Cleanup</td></tr>
+<tr><td>Computer name, user name, CPU, memory and drive details</td><td>Overview</td></tr>
+</table>
+<p>Some of this, such as your user name or the names of files and folders, can be personal data. It is processed in your computer's memory, shown only to you, and never sent to us or anyone else.</p>
+
+<h2>4. Information Sysight saves on your device</h2>
 <ul>
-<li>A change history file (<code>%LOCALAPPDATA%\Sysight\changes.json</code>) listing service and startup changes you made, so you can undo them.</li>
-<li>Display settings for the built-in Microsoft Edge WebView2 component in <code>%LOCALAPPDATA%\Sysight\WebView</code>.</li>
+<li><b>Change history</b> (<code>%LOCALAPPDATA%\Sysight\changes.json</code>): the services and startup apps you changed, with the time, so you can undo them. It keeps the most recent 500 entries.</li>
+<li><b>WebView settings</b> (<code>%LOCALAPPDATA%\Sysight\WebView</code>): data the built-in Microsoft Edge WebView2 component needs to display the app.</li>
 </ul>
-<p>Both stay on your computer and are removed when you delete that folder.</p>
+<p>These files stay on your computer. Uninstalling Sysight may leave this folder behind; you can delete <code>%LOCALAPPDATA%\Sysight</code> at any time to remove it completely.</p>
 
-<h2>Changes you make</h2>
-<p>Sysight only changes your system when you click an action (end a process, change a service, toggle a startup app, run an uninstaller, or clean a cache), and asks you to confirm the risky ones first.</p>
+<h2>5. Third-party components</h2>
+<p>Sysight uses components of Microsoft Windows, including the Microsoft Edge WebView2 Runtime, and is distributed through the Microsoft Store. Microsoft may collect diagnostic or usage data through Windows, WebView2 and the Store according to your Windows privacy settings and the <a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a>. We do not receive that data.</p>
 
-<h2>Children</h2>
-<p>Sysight does not knowingly collect information from anyone, including children.</p>
+<h2>6. Actions you take</h2>
+<p>Sysight only changes your system when you click an action: ending a process, changing a service, turning a startup app on or off, launching an uninstaller, or cleaning a cache. Cleanup permanently deletes the files in the selected cache folders. These actions affect only your own computer.</p>
 
-<h2>Changes to this policy</h2>
-<p>If this policy changes, the new version will be posted at this address with a new effective date.</p>
+<h2>7. Your rights</h2>
+<p>Because we hold no personal data about you, there is nothing for us to access, correct, export or delete. Depending on where you live, you may have rights under laws such as India's Digital Personal Data Protection Act 2023, the EU/UK GDPR or the California Consumer Privacy Act. If you believe we hold your data, or want to raise a privacy concern, contact us as described in section 1 and we will respond within 30 days. You may also complain to your local data protection authority.</p>
 
-<h2>Contact</h2>
-<p>Questions: open an issue on the Sysight GitHub repository or use the support contact listed on the Microsoft Store page.</p>
+<h2>8. Children</h2>
+<p>Sysight is a general-purpose system utility. It does not knowingly collect information from anyone, including children.</p>
+
+<h2>9. Changes to this policy</h2>
+<p>If this policy changes, we will post the new version at this address with a new effective date. If a future version of Sysight ever collects data, this policy will be updated before that version is released.</p>
 </body></html>

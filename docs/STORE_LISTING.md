@@ -26,14 +26,14 @@ Sysight shows you everything running on your Windows PC in one place, and lets y
 • Turn startup apps on or off
 • Launch an app's own uninstaller
 • Drill into any folder by size to find what is filling your drive
-• Clear caches that apps rebuild by themselves: temp files, browser caches, npm, pip, Windows Update downloads and the Recycle Bin
+• Clear caches that apps rebuild by themselves: temp files, browser caches, npm, pip, Windows Update downloads and the Recycle Bin (files are deleted permanently)
 
-**Built to be safe**
-• Core Windows processes and Windows services are protected and can't be ended or disabled from Sysight
-• Every service and startup change is recorded in Change history with a one-click Undo
+**Built with safeguards**
+• Key Windows processes and Microsoft services are blocked from being ended or disabled
+• Service and startup changes are recorded in Change history with one-click Undo (ending a process and cleanup can't be undone)
 • Kernel drivers are view-only
-• Cleanup never touches your documents, projects or passwords
-• Sysight collects no data and sends nothing over the internet
+• Cleanup only targets cache and temp folders, not your documents or saved passwords
+• Sysight itself collects no data and makes no network requests
 
 ## What's new in this version
 First release.
@@ -47,9 +47,9 @@ Kernel driver inspector with signer and risk flags
 Startup app manager
 Installed apps with sizes
 Folder-by-size storage explorer
-Safe cache cleanup
+Cache cleanup
 Change history with one-click Undo
-Protection for core Windows processes and services
+Blocks changes to key Windows processes and services
 No telemetry, works offline
 
 ## Search terms (max 7)
@@ -73,7 +73,13 @@ All screenshots use built-in sample data (no real machine names or user paths).
 docs/store-logo-300.png (300×300). Partner Center also accepts the 1:1 box art at 1080×1080 if you want to add it later.
 
 ## Privacy policy URL
-Required because the app requests restricted capabilities. Host docs/privacy.html (GitHub Pages works) and paste its URL.
+https://niksheyyadav.github.io/sysight/privacy.html
+
+## Additional license terms URL (Properties, optional)
+https://niksheyyadav.github.io/sysight/terms.html
+
+## Copyright and trademark info
+© 2026 astrosurfr. Microsoft, Windows and Microsoft Edge are trademarks of the Microsoft group of companies. Sysight is not affiliated with Microsoft.
 
 ## Pricing
 Suggested: Free at launch to collect ratings, or a one-time ₹199 / US$2.99. Don't promise features that aren't built yet.
@@ -88,4 +94,4 @@ Paste into the "Submission options → Restricted capabilities" box:
 > • runFullTrust: it's a desktop (Win32) app that reads process, service and driver information through standard Windows APIs (WMI, Service Control Manager, registry).
 > • allowElevation: service start/stop/disable needs administrator rights. Sysight runs as a standard user and only asks for elevation when the user clicks "Restart as admin".
 > • unvirtualizedResources: turning startup apps on or off writes the same HKCU StartupApproved values Task Manager uses, and cache cleanup deletes files in the user's real AppData. With virtualization on, these changes would only affect a private copy and do nothing.
-> Sysight protects core Windows processes and Windows services from being ended or disabled, logs every change with a one-click Undo, and collects no data.
+> Sysight blocks ending key Windows processes and changing Microsoft services, logs service and startup changes with one-click Undo, and collects no data.
