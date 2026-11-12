@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Sysight</title>
+<style>
+:root{--bg:#0b0d12;--panel:#12151d;--panel2:#181c26;--line:#232838;--text:#e6e9f0;--dim:#8a91a5;--acc:#f5b942;--acc2:#6aa7ff;--ok:#3ecf8e;--warn:#f5a524;--bad:#ff5d5d;--r:10px}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:13px/1.45 "Segoe UI Variable","Segoe UI",system-ui,sans-serif}
+body{display:grid;grid-template-columns:210px 1fr;overflow:hidden}
+nav{background:var(--panel);border-right:1px solid var(--line);padding:18px 10px;display:flex;flex-direction:column;gap:2px}
+.brand{font-weight:700;font-size:17px;letter-spacing:.3px;padding:4px 10px 18px;display:flex;align-items:center;gap:8px}
+.brand i{width:22px;height:22px;border-radius:6px;background:conic-gradient(from 200deg,var(--acc),#ff7a45,var(--acc2),var(--acc));display:inline-block}
+nav button{all:unset;cursor:pointer;padding:9px 12px;border-radius:8px;color:var(--dim);font-weight:500;display:flex;justify-content:space-between}
+nav button:hover{background:var(--panel2);color:var(--text)}nav button.on{background:var(--panel2);color:var(--text);box-shadow:inset 3px 0 0 var(--acc)}
+nav .sp{flex:1}.adm{font-size:11px;color:var(--dim);padding:10px 12px;border-top:1px solid var(--line)}
+.adm button{all:unset;cursor:pointer;color:var(--acc);font-weight:600;display:block;margin-top:6px}
+main{overflow:auto;padding:22px 26px}
+h1{font-size:20px;margin:0 0 4px}.sub{color:var(--dim);margin:0 0 18px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.card .k{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.6px}.card .v{font-size:24px;font-weight:650;margin-top:4px;font-variant-numeric:tabular-nums}
+.card .s{color:var(--dim);font-size:12px}
+.bar{height:6px;background:var(--panel2);border-radius:3px;overflow:hidden;margin-top:8px}.bar>i{display:block;height:100%;background:var(--acc2)}
+.bar.hot>i{background:var(--bad)}.bar.mid>i{background:var(--warn)}
+.tools{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+input[type=search],input[type=text]{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 10px;min-width:260px;outline:none}
+input:focus{border-color:var(--acc2)}
+.btn{all:unset;cursor:pointer;background:var(--panel2);border:1px solid var(--line);padding:6px 11px;border-radius:7px;font-weight:500;white-space:nowrap}
+.btn:hover{border-color:var(--acc2)}.btn.red{color:var(--bad)}.btn.red:hover{border-color:var(--bad)}.btn.go{background:var(--acc);color:#1a1300;border-color:var(--acc);font-weight:650}
+label.chk{color:var(--dim);display:flex;gap:6px;align-items:center;cursor:pointer}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;position:sticky;top:-22px;background:var(--panel);user-select:none}
+tr:hover td{background:var(--panel2)}td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.p{color:var(--dim);font-size:11.5px;overflow-wrap:anywhere}
+.tag{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:20px;border:1px solid var(--line);color:var(--dim);margin:1px 3px 1px 0}
+.tag.w{color:var(--warn);border-color:#5a4313}.tag.b{color:var(--bad);border-color:#5a1f1f}.tag.g{color:var(--ok);border-color:#164a35}
+.sz{display:flex;align-items:center;gap:8px}.sz .bar{flex:1;margin:0;min-width:80px}
+a.lnk{color:var(--acc2);cursor:pointer;text-decoration:none}a.lnk:hover{text-decoration:underline}
+.crumbs{color:var(--dim);margin-bottom:10px}.crumbs a{color:var(--acc2);cursor:pointer}
+#toast{position:fixed;right:20px;bottom:20px;background:var(--panel2);border:1px solid var(--line);padding:10px 14px;border-radius:8px;opacity:0;transition:.2s;max-width:420px}
+#toast.on{opacity:1}.spin{color:var(--dim);padding:30px;text-align:center}
+.ver{font-size:11px;color:var(--dim);padding:6px 12px 0}
+.note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--acc);padding:10px 14px;border-radius:8px;color:var(--dim);margin-bottom:14px}
+</style></head><body>
+<nav>
+  <div class="brand"><i></i>Sysight</div>
+  <button data-v="overview" class="on">Overview</button>
+  <button data-v="procs">Processes</button>
+  <button data-v="net">Network</button>
+  <button data-v="services">Services</button>
+  <button data-v="drivers">Kernel drivers</button>
+  <button data-v="startup">Startup</button>
+  <button data-v="apps">Installed apps</button>
+  <button data-v="storage">Storage explorer</button>
+  <button data-v="clean">Cleanup</button>
+  <button data-v="changes">Change history</button>
+  <div class="sp"></div>
+  <div class="adm" id="adm"></div><div class="ver" id="ver"></div>
+</nav>
+<main id="main"></main>
+<div id="toast"></div>
+<script>
+function demo(cmd, a) {
+  const GB = 1024 ** 3, MB = 1024 ** 2, now = new Date().toISOString();
+  const P = (name, pid, mem, cpu, company, path, extra = {}) => ({ pid, name, mem: mem * MB, priv: mem * MB, cpu, cpuTotal: 100, threads: 20 + pid % 40, path, company, title: '', session: 1, critical: false, ...extra });
+  const D = {
+    about: { name: 'Sysight', version: '1.0.0', admin: false },
+    sys: { machine: 'WORKSTATION-01', user: 'demo', os: 'Microsoft Windows 10.0.26100', cpuName: 'Intel Core i7-1360P', cores: 12, threads: 16, cpu: 23.4, ramTotal: 16 * GB, ramUsed: 10.2 * GB, commitTotal: 28 * GB, commitUsed: 14.6 * GB, uptime: 273600, isAdmin: false, procCount: 287,
+      disks: [{ name: 'C:\\', label: 'Windows', total: 476 * GB, free: 142 * GB, fs: 'NTFS' }, { name: 'D:\\', label: 'Data', total: 931 * GB, free: 512 * GB, fs: 'NTFS' }] },
+    procs: [P('chrome', 8120, 912, 4.2, 'Google LLC', 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'), P('Code', 9304, 744, 1.8, 'Microsoft Corporation', 'C:\\Program Files\\Microsoft VS Code\\Code.exe'),
+      P('MsMpEng', 4120, 412, 0.6, '', null, { critical: true }), P('Teams', 11020, 388, 0.9, 'Microsoft Corporation', 'C:\\Program Files\\WindowsApps\\MSTeams\\ms-teams.exe'),
+      P('Docker Desktop', 6604, 352, 0.4, 'Docker Inc.', 'C:\\Program Files\\Docker\\Docker\\Docker Desktop.exe'), P('Discord', 7716, 298, 0.3, 'Discord Inc.', 'C:\\Users\\demo\\AppData\\Local\\Discord\\app-1.0.9\\Discord.exe'),
+      P('dwm', 1488, 186, 2.1, 'Microsoft Corporation', 'C:\\Windows\\System32\\dwm.exe', { critical: true }), P('SupportAssistAgent', 5280, 174, 0.0, 'Dell Inc.', 'C:\\Program Files\\Dell\\SupportAssistAgent\\bin\\SupportAssistAgent.exe'),
+      P('explorer', 6012, 162, 0.5, 'Microsoft Corporation', 'C:\\Windows\\explorer.exe'), P('Spotify', 10552, 158, 0.7, 'Spotify Ltd', 'C:\\Users\\demo\\AppData\\Roaming\\Spotify\\Spotify.exe'),
+      P('OneDrive', 9988, 121, 0.1, 'Microsoft Corporation', 'C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe'), P('node', 12440, 117, 3.6, 'Node.js', 'C:\\Program Files\\nodejs\\node.exe'),
+      P('svchost', 1320, 96, 0.2, 'Microsoft Corporation', 'C:\\Windows\\System32\\svchost.exe', { critical: true }), P('postgres', 3376, 64, 0.0, 'PostgreSQL Global Development Group', 'C:\\Program Files\\PostgreSQL\\17\\bin\\postgres.exe')],
+    drivers: [
+      ['WinRing0x64', 'WinRing0 hardware access', 'OpenLibSys.org', '(catalog-signed)', 'Running', 'Manual', ['direct hardware/MSR access']],
+      ['npcap', 'Npcap Packet Driver', 'Nmap Software LLC', 'Microsoft Windows Hardware Compatibility Publisher', 'Running', 'System', ['network filter']],
+      ['googledrivefs', 'Google Drive File System', 'Google, Inc.', 'Microsoft Windows Hardware Compatibility Publisher', 'Running', 'System', ['filesystem']],
+      ['iaStorVD', 'Intel RST VMD Controller', 'Intel Corporation', '(catalog-signed)', 'Running', 'Boot', []],
+      ['Netwtw14', 'Intel Wi-Fi 6E AX211', 'Intel Corporation', '(catalog-signed)', 'Running', 'Manual', []],
+      ['rt68cx21', 'Realtek USB Ethernet', 'Realtek', '(catalog-signed)', 'Running', 'Manual', []],
+      ['DellInstrumentation', 'Dell Instrumentation', 'Dell Inc.', 'Microsoft Windows Hardware Compatibility Publisher', 'Running', 'Manual', []],
+      ['vboxsup', 'VirtualBox Support Driver', 'Oracle Corporation', 'Oracle Corporation', 'Stopped', 'Demand', ['orphan']],
+      ['IntcAudioBus', 'Intel Smart Sound Bus', 'Intel(R) Corporation', '(catalog-signed)', 'Running', 'Manual', []]
+    ].map(([name, display, company, signer, state, start, flags]) => ({ name, display, company, signer, state, start, flags, thirdParty: true, path: 'C:\\Windows\\System32\\drivers\\' + name + '.sys' })),
+    services: [
+      ['SmartByte Network Service x64', 'SmartByte Network Service', 'Rivet Networks', 'Running', 'Auto'], ['DellTechHub', 'Dell TechHub', 'Dell', 'Running', 'Auto'],
+      ['IntelTelemetryAgent', 'Intel Telemetry Agent', 'Intel Corporation', 'Running', 'Auto'], ['McAfee WebAdvisor', 'McAfee WebAdvisor', 'McAfee, LLC', 'Running', 'Auto'],
+      ['postgresql-x64-17', 'PostgreSQL Server 17', 'PostgreSQL Global Development Group', 'Running', 'Auto'], ['com.docker.service', 'Docker Desktop Service', 'Docker Inc.', 'Stopped', 'Manual'],
+      ['Bonjour Service', 'Bonjour Service', 'Apple Inc.', 'Running', 'Auto'], ['AnyDesk', 'AnyDesk Service', 'philandro Software GmbH', 'Running', 'Auto'],
+      ['GoogleUpdaterService', 'Google Updater Service', 'Google LLC', 'Stopped', 'Auto'], ['HPPrintScanDoctorService', 'HP Print Scan Doctor', 'HP Inc.', 'Running', 'Auto']
+    ].map(([name, display, company, state, start]) => ({ name, display, company, state, start, account: 'LocalSystem', thirdParty: true, path: 'C:\\Program Files\\' + company.split(/[ ,]/)[0] + '\\' + name.replace(/ /g, '') + '.exe', pid: 0 })),
+    startup: [['Docker Desktop', 'Docker Inc.', true], ['Discord', 'Discord Inc.', true], ['Spotify', 'Spotify Ltd', false], ['OneDrive', 'Microsoft Corporation', true], ['Teams', 'Microsoft Corporation', true],
+      ['AnyDesk', 'philandro Software GmbH', true], ['Steam', 'Valve Corporation', false], ['Ollama', 'Ollama', true]]
+      .map(([name, company, enabled]) => ({ name, company, enabled, hive: 'HKCU', group: 'Run', exists: true, cmd: '"C:\\Program Files\\' + name + '\\' + name + '.exe" --background' })),
+    net: [], apps: [],
+    scan: { path: 'C:\\', parent: null, items: [['Users', 168], ['Windows', 31.4], ['Program Files', 24.8], ['Projects', 38.2], ['Program Files (x86)', 9.1], ['ProgramData', 4.2], ['Games', 52.7]]
+      .map(([name, g]) => ({ name, path: 'C:\\' + name, size: g * GB, dir: true, modified: '2026-11-10T09:00:00', link: false })).concat([{ name: 'pagefile.sys', path: 'C:\\pagefile.sys', size: 12 * GB, dir: false, modified: now, link: false }, { name: 'hiberfil.sys', path: 'C:\\hiberfil.sys', size: 6.3 * GB, dir: false, modified: now, link: false }]) },
+    cleanTargets: [['usertemp', 'User temp files', 'Leftovers from installers and apps', 2.1], ['npm', 'npm cache', 'Re-downloaded on demand', 3.4], ['pip', 'pip cache', 'Re-downloaded on demand', 1.2],
+      ['chrome', 'Chrome cache', 'Browser cache (not history/passwords)', 1.6], ['wu', 'Windows Update download cache', 'Already-installed update packages', 2.8, true], ['crash', 'Crash dumps & error reports', 'Diagnostic leftovers', 0.6], ['recycle', 'Recycle Bin', 'Files you already deleted', 4.9]]
+      .map(([id, label, why, g, admin]) => ({ id, label, why, admin: !!admin, paths: [], size: g * GB })),
+    changes: [{ id: 'a1', time: '2026-11-12T10:42:00', kind: 'Service', target: 'SmartByte Network Service', detail: 'Disabled (was Auto, Running)', undone: false },
+      { id: 'a2', time: '2026-11-12T10:41:00', kind: 'Startup', target: 'Docker Desktop', detail: 'Disabled at sign-in', undone: false },
+      { id: 'a3', time: '2026-11-11T18:05:00', kind: 'Service', target: 'Intel Telemetry Agent', detail: 'Set to Manual (was Auto, Running)', undone: false },
+      { id: 'a4', time: '2026-11-11T18:02:00', kind: 'Startup', target: 'Spotify', detail: 'Disabled at sign-in', undone: false }]
+  };
+  return D[cmd] ?? true;
+}
+const W = window.chrome && window.chrome.webview ? window.chrome.webview : { addEventListener() {}, postMessage() {} }; let seq = 0; const pending = {};
+W.addEventListener('message', e => { const m = e.data; const p = pending[m.id]; if (!p) return; delete pending[m.id]; m.error ? p.rej(new Error(m.error)) : p.res(m.result); });
+const DEMO = location.search.includes('demo');
+const api = (cmd, args = {}) => DEMO ? new Promise(r => setTimeout(() => r(demo(cmd, args)), 30)) : new Promise((res, rej) => { const id = ++seq; pending[id] = { res, rej }; W.postMessage({ id, cmd, args }); });
+const $ = s => document.querySelector(s), M = $('#main');
+const esc = s => (s ?? '').toString().replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const fmt = b => { if (!b) return '0 B'; const u = ['B', 'KB', 'MB', 'GB', 'TB']; let i = Math.floor(Math.log(b) / Math.log(1024)); return (b / 1024 ** i).toFixed(i > 2 ? 1 : 0) + ' ' + u[i]; };
+const dur = s => { const d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60); return (d ? d + 'd ' : '') + h + 'h ' + m + 'm'; };
+const toast = (t, ms = 3500) => { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('on'), ms); };
+const bar = (pct, cls = '') => `<div class="bar ${pct > 90 ? 'hot' : pct > 70 ? 'mid' : ''} ${cls}"><i style="width:${Math.min(100, pct)}%"></i></div>`;
+let timer = null, view = 'overview', isAdmin = false;
+
+// generic table: cols [{k,label,num,fmt(row)}], rows, actions(row)->html
+function table(host, cols, rows, opts = {}) {
+  let sortK = opts.sort, dir = opts.dir ?? -1, q = '';
+  const filt = opts.filters || [];
+  host.innerHTML = `<div class="tools"><input type="search" placeholder="Filter…"> ${filt.map((f, i) => `<label class="chk"><input type="checkbox" data-f="${i}" ${f.on ? 'checked' : ''}>${f.label}</label>`).join('')} <span class="p cnt"></span> ${opts.toolbar || ''}</div><div class="tw"></div>`;
+  const tw = host.querySelector('.tw');
+  const draw = () => {
+    let r = rows.filter(x => !q || JSON.stringify(x).toLowerCase().includes(q));
+    filt.forEach(f => { if (f.on) r = r.filter(f.fn); });
+    if (sortK) r.sort((a, b) => { const x = a[sortK], y = b[sortK]; return (typeof x === 'number' ? x - y : String(x ?? '').localeCompare(String(y ?? ''))) * dir; });
+    host.querySelector('.cnt').textContent = r.length + ' items';
+    tw.innerHTML = `<table><thead><tr>${cols.map(c => `<th data-k="${c.k}">${c.label}${sortK === c.k ? (dir > 0 ? ' ▲' : ' ▼') : ''}</th>`).join('')}${opts.actions ? '<th></th>' : ''}</tr></thead><tbody>${r.slice(0, 1500).map((x, i) => `<tr>${cols.map(c => `<td class="${c.num ? 'n' : ''}">${c.fmt ? c.fmt(x) : esc(x[c.k])}</td>`).join('')}${opts.actions ? `<td style="white-space:nowrap">${opts.actions(x)}</td>` : ''}</tr>`).join('')}</tbody></table>`;
+    tw.querySelectorAll('th[data-k]').forEach(th => th.onclick = () => { const k = th.dataset.k; dir = sortK === k ? -dir : -1; sortK = k; draw(); });
+  };
+  host.querySelector('input[type=search]').oninput = e => { q = e.target.value.toLowerCase(); draw(); };
+  host.querySelectorAll('[data-f]').forEach(cb => cb.onchange = () => { filt[cb.dataset.f].on = cb.checked; draw(); });
+  draw();
+  return { set(r) { rows = r; draw(); } };
+}
+const head = (t, s) => `<h1>${t}</h1><p class="sub">${s}</p>`;
+window.act = async (cmd, args, msg, confirmText) => {
+  if (confirmText && !confirm(confirmText)) return;
+  try { await api(cmd, args); toast(msg || 'Done'); } catch (e) { toast('⚠ ' + e.message + (isAdmin ? '' : ' — try "Restart as admin"'), 6000); }
+  show(view, true);
+};
+window.openP = p => api('open', { path: p });
+
+const views = {
+  async overview() {
+    const s = await api('sys'); isAdmin = s.isAdmin; adm();
+    const ram = s.ramUsed / s.ramTotal * 100;
+    M.innerHTML = head(s.machine, `${esc(s.os)} · ${esc(s.cpuName)} · ${s.cores} cores / ${s.threads} threads · up ${dur(s.uptime)}`) +
+      `<div class="cards">
+       <div class="card"><div class="k">CPU</div><div class="v">${s.cpu}%</div>${bar(s.cpu)}</div>
+       <div class="card"><div class="k">Memory</div><div class="v">${fmt(s.ramUsed)}</div><div class="s">of ${fmt(s.ramTotal)}</div>${bar(ram)}</div>
+       <div class="card"><div class="k">Commit</div><div class="v">${fmt(s.commitUsed)}</div><div class="s">of ${fmt(s.commitTotal)}</div>${bar(s.commitUsed / s.commitTotal * 100)}</div>
+       <div class="card"><div class="k">Processes</div><div class="v">${s.procCount}</div><div class="s">running now</div></div>
+       ${s.disks.map(d => { const u = (d.total - d.free) / d.total * 100; return `<div class="card"><div class="k">Drive ${esc(d.name)} ${esc(d.label)}</div><div class="v">${fmt(d.free)} free</div><div class="s">${fmt(d.total - d.free)} used of ${fmt(d.total)}</div>${bar(u)}</div>` }).join('')}
+      </div><div id="top"></div>`;
+    const p = await api('procs'); await new Promise(r => setTimeout(r, 700)); const p2 = await api('procs');
+    const top = p2.sort((a, b) => b.mem - a.mem).slice(0, 12);
+    $('#top').innerHTML = `<h1 style="font-size:15px;margin:6px 0 10px">Top memory users</h1><table>${top.map(x => `<tr><td>${esc(x.name)} <span class="p">#${x.pid}</span></td><td class="p">${esc(x.company)}</td><td class="n">${x.cpu}%</td><td class="n">${fmt(x.mem)}</td></tr>`).join('')}</table>`;
+    timer = setInterval(async () => { if (view !== 'overview') return; const s = await api('sys'); const v = M.querySelectorAll('.card .v'); v[0].textContent = s.cpu + '%'; M.querySelectorAll('.card .bar i')[0].style.width = s.cpu + '%'; v[1].textContent = fmt(s.ramUsed); }, 2000);
+  },
+  async procs() {
+    M.innerHTML = head('Processes', 'Everything running on this PC. CPU % is measured between refreshes (every 3 s).') + '<div id="t"></div>';
+    await api('procs'); await new Promise(r => setTimeout(r, 500));
+    const t = table($('#t'), [
+      { k: 'name', label: 'Process', fmt: x => `<b>${esc(x.name)}</b> <span class="p">#${x.pid}</span>${x.title ? `<div class="p">${esc(x.title)}</div>` : ''}` },
+      { k: 'company', label: 'Publisher', fmt: x => `<span class="p">${esc(x.company)}</span>` },
+      { k: 'cpu', label: 'CPU %', num: 1 }, { k: 'mem', label: 'Memory', num: 1, fmt: x => fmt(x.mem) },
+      { k: 'threads', label: 'Threads', num: 1 }, { k: 'path', label: 'Path', fmt: x => x.path ? `<a class="lnk p" onclick='openP(${JSON.stringify(x.path)})'>${esc(x.path)}</a>` : '<span class="p">(protected)</span>' }],
+      await api('procs'), { sort: 'mem', actions: x => x.critical ? '<span class="tag">Protected</span>' : `<button class="btn red" onclick='act("kill",{pid:${x.pid}},"Killed ${esc(x.name)}","End process ${esc(x.name)} (#${x.pid})? Unsaved work in it will be lost.")'>End</button>`,
+        filters: [{ label: 'Hide Microsoft', fn: x => !/Microsoft/.test(x.company) }] });
+    timer = setInterval(async () => { if (view === 'procs') t.set(await api('procs')); }, 3000);
+  },
+  async net() {
+    M.innerHTML = head('Network', 'Every open connection and listening port, with the process that owns it.') + '<div id="t"></div>';
+    const r = await api('net');
+    table($('#t'), [{ k: 'proc', label: 'Process', fmt: x => `<b>${esc(x.proc)}</b> <span class="p">#${x.pid}</span>` }, { k: 'proto', label: 'Proto' }, { k: 'state', label: 'State', fmt: x => x.state === 'LISTENING' ? '<span class="tag w">LISTENING</span>' : x.state === 'ESTABLISHED' ? '<span class="tag g">ESTABLISHED</span>' : esc(x.state) }, { k: 'local', label: 'Local' }, { k: 'remote', label: 'Remote' }], r,
+      { sort: 'proc', dir: 1, filters: [{ label: 'Established only', fn: x => x.state === 'ESTABLISHED' }, { label: 'Listening only', fn: x => x.state === 'LISTENING' }, { label: 'Hide loopback', on: true, fn: x => !/^(127\.|\[::1\])/.test(x.remote) }] });
+  },
+  async services() {
+    M.innerHTML = head('Services', 'Background services. Third-party ones running as LocalSystem have full control of the PC. Windows services are protected; every change you make can be undone in Change history.') + '<div id="t"></div>';
+    table($('#t'), [
+      { k: 'display', label: 'Service', fmt: x => `<b>${esc(x.display)}</b><div class="p">${esc(x.name)}</div>` },
+      { k: 'company', label: 'Publisher', fmt: x => `<span class="p">${esc(x.company) || '—'}</span>` },
+      { k: 'state', label: 'State', fmt: x => `<span class="tag ${x.state === 'Running' ? 'g' : ''}">${x.state}</span>` },
+      { k: 'start', label: 'Start' }, { k: 'account', label: 'Runs as', fmt: x => `<span class="${/LocalSystem/i.test(x.account) && x.thirdParty ? 'tag w' : 'p'}">${esc(x.account)}</span>` },
+      { k: 'path', label: 'Binary', fmt: x => `<span class="p">${esc(x.path)}</span>` }],
+      await api('services'), { sort: 'state', dir: 1, filters: [{ label: 'Third-party only', on: true, fn: x => x.thirdParty }, { label: 'Running only', fn: x => x.state === 'Running' }],
+        actions: x => !x.thirdParty ? '<span class="tag">Protected</span>' : (x.state === 'Running' ? `<button class="btn" onclick='act("svcAction",{name:${JSON.stringify(x.name)},action:"stop"},"Stopped")'>Stop</button> ` : `<button class="btn" onclick='act("svcAction",{name:${JSON.stringify(x.name)},action:"start"},"Started")'>Start</button> `) +
+          (x.start === 'Auto' ? `<button class="btn" onclick='act("svcAction",{name:${JSON.stringify(x.name)},action:"manual"},"Set to Manual","Set ${esc(x.display)} to start only when needed?")'>Manual</button> ` : '') +
+          (x.start !== 'Disabled' ? `<button class="btn red" onclick='act("svcAction",{name:${JSON.stringify(x.name)},action:"disable"},"Disabled","Disable ${esc(x.display)}? It will not start again until re-enabled.")'>Disable</button>` : `<button class="btn" onclick='act("svcAction",{name:${JSON.stringify(x.name)},action:"manual"},"Re-enabled (Manual)")'>Enable</button>`) });
+  },
+  async drivers() {
+    M.innerHTML = head('Kernel drivers', 'Code running in ring 0 — the kernel. Third-party drivers here can see and touch everything. Read-only view: changing drivers is left to Device Manager on purpose.') +
+      '<div class="note">Flags: <span class="tag b">direct hardware/MSR access</span> drivers can read CPU registers and physical memory (used by tuning/monitoring tools, sometimes abused by malware). <span class="tag w">network filter</span> sees all traffic. <span class="tag w">filesystem</span> sees all file access. <span class="tag">orphan</span> = registered but the file is gone.</div><div id="t"></div>';
+    table($('#t'), [
+      { k: 'name', label: 'Driver', fmt: x => `<b>${esc(x.name)}</b><div class="p">${esc(x.display)}</div>` },
+      { k: 'company', label: 'Vendor', fmt: x => `<span class="p">${esc(x.company) || '—'}</span>` },
+      { k: 'signer', label: 'Signed by', fmt: x => `<span class="p">${esc(x.signer)}</span>` },
+      { k: 'state', label: 'State', fmt: x => `<span class="tag ${x.state === 'Running' ? 'g' : ''}">${x.state}</span>` }, { k: 'start', label: 'Start' },
+      { k: 'flags', label: 'Flags', fmt: x => x.flags.map(f => `<span class="tag ${/hardware/.test(f) ? 'b' : f === 'orphan' ? '' : 'w'}">${f}</span>`).join('') },
+      { k: 'path', label: 'File', fmt: x => `<a class="lnk p" onclick='openP(${JSON.stringify(x.path)})'>${esc(x.path)}</a>` }],
+      await api('drivers'), { sort: 'state', dir: 1, filters: [{ label: 'Third-party only', on: true, fn: x => x.thirdParty }, { label: 'Running only', on: true, fn: x => x.state === 'Running' }, { label: 'Flagged only', fn: x => x.flags.length }] });
+  },
+  async startup() {
+    M.innerHTML = head('Startup', 'Apps that launch when you sign in. Disabling here is the same switch as Task Manager → Startup apps (fully reversible).') + '<div id="t"></div>';
+    table($('#t'), [
+      { k: 'name', label: 'Entry', fmt: x => `<b>${esc(x.name)}</b>${x.exists ? '' : ' <span class="tag">missing file</span>'}` },
+      { k: 'enabled', label: 'Status', fmt: x => x.enabled ? '<span class="tag g">Enabled</span>' : '<span class="tag">Disabled</span>' },
+      { k: 'company', label: 'Publisher', fmt: x => `<span class="p">${esc(x.company)}</span>` }, { k: 'hive', label: 'Scope' },
+      { k: 'cmd', label: 'Command', fmt: x => `<span class="p">${esc(x.cmd)}</span>` }],
+      await api('startup'), { sort: 'enabled', actions: x => `<button class="btn ${x.enabled ? 'red' : ''}" onclick='act("startupToggle",${JSON.stringify({ hive: x.hive, group: x.group, name: x.name, enable: !x.enabled })},"${x.enabled ? 'Disabled' : 'Enabled'}")'>${x.enabled ? 'Disable' : 'Enable'}</button>` });
+  },
+  async apps() {
+    M.innerHTML = head('Installed apps', 'Sizes are what each installer reports (some report nothing). Uninstall opens the app\'s own uninstaller.') + '<div id="t"></div>';
+    table($('#t'), [
+      { k: 'name', label: 'App', fmt: x => `<b>${esc(x.name)}</b> <span class="p">${esc(x.version)}</span>` },
+      { k: 'publisher', label: 'Publisher', fmt: x => `<span class="p">${esc(x.publisher)}</span>` },
+      { k: 'size', label: 'Size', num: 1, fmt: x => x.size ? fmt(x.size) : '—' }, { k: 'installed', label: 'Installed', fmt: x => esc(x.installed ? String(x.installed).replace(/(\d{4})(\d\d)(\d\d)/, '$1-$2-$3') : '') }],
+      await api('apps'), { sort: 'size', actions: x => x.uninstall ? `<button class="btn red" onclick='act("uninstall",{cmd:${JSON.stringify(x.uninstall)}},"Uninstaller launched","Launch the uninstaller for ${esc(x.name)}?")'>Uninstall</button>` : '' });
+  },
+  async storage(path) {
+    path = path || (window._sp ?? 'C:\\'); window._sp = path;
+    M.innerHTML = head('Storage explorer', 'Click a folder to drill in. First scan of a big folder can take a few minutes; results are cached.') + `<div class="spin">Scanning ${esc(path)}…</div>`;
+    const r = await api('scan', { path });
+    const tot = r.items.reduce((a, x) => a + x.size, 0), max = Math.max(1, ...r.items.map(x => x.size));
+    const parts = r.path.split('\\').filter(Boolean); let acc = '';
+    M.innerHTML = head('Storage explorer', `${fmt(tot)} in ${esc(r.path)}`) + `<div class="crumbs">${parts.map(p => { acc += p + '\\'; const a = acc; return `<a onclick='views.storage(${JSON.stringify(a)})'>${esc(p)}</a>`; }).join(' › ')} &nbsp; <button class="btn" onclick='api("scan",{path:${JSON.stringify(r.path)},fresh:true}).then(()=>views.storage(${JSON.stringify(r.path)}))'>Rescan</button></div><div id="t"></div>`;
+    table($('#t'), [
+      { k: 'name', label: 'Name', fmt: x => x.dir && !x.link ? `<a class="lnk" onclick='views.storage(${JSON.stringify(x.path)})'>📁 ${esc(x.name)}</a>` : `${x.link ? '🔗' : '📄'} ${esc(x.name)}` },
+      { k: 'size', label: 'Size', fmt: x => `<div class="sz"><span style="width:70px;text-align:right">${fmt(x.size)}</span>${bar(x.size / max * 100)}</div>` },
+      { k: 'modified', label: 'Modified', fmt: x => `<span class="p">${(x.modified || '').slice(0, 10)}</span>` }], r.items,
+      { sort: 'size', actions: x => `<button class="btn" onclick='openP(${JSON.stringify(x.path)})'>Show</button>` });
+  },
+  async clean() {
+    M.innerHTML = head('Cleanup', 'Only caches and leftovers that apps rebuild by themselves. Your files, projects and passwords are never touched here.') + '<div class="spin">Measuring…</div>';
+    const r = (await api('cleanTargets')).sort((a, b) => b.size - a.size); const tot = r.reduce((a, x) => a + x.size, 0);
+    M.innerHTML = head('Cleanup', `${fmt(tot)} reclaimable from safe caches.`) + `<table>${r.map(x => `<tr><td><b>${esc(x.label)}</b>${x.admin && !isAdmin ? ' <span class="tag w">admin</span>' : ''}<div class="p">${esc(x.why)}</div></td><td class="p">${x.paths.map(esc).join('<br>')}</td><td class="n"><b>${fmt(x.size)}</b></td><td><button class="btn ${x.size ? 'go' : ''}" ${x.size ? '' : 'disabled'} onclick='cleanOne(${JSON.stringify(x.id)},${JSON.stringify(x.label)})'>Clean</button></td></tr>`).join('')}</table>`;
+  }
+};
+views.changes = async function () {
+  M.innerHTML = head('Change history', 'Every service and startup change Sysight makes is recorded here and can be reversed.') + '<div id="t"></div>';
+  table($('#t'), [
+    { k: 'time', label: 'When', fmt: x => `<span class="p">${esc(String(x.time).slice(0, 16).replace('T', ' '))}</span>` },
+    { k: 'kind', label: 'Type', fmt: x => `<span class="tag">${esc(x.kind)}</span>` },
+    { k: 'target', label: 'Item', fmt: x => `<b>${esc(x.target)}</b>` }, { k: 'detail', label: 'Change' },
+    { k: 'undone', label: 'Status', fmt: x => x.undone ? '<span class="tag">Undone</span>' : '<span class="tag g">Applied</span>' }],
+    await api('changes'), { sort: 'time', actions: x => x.undone ? '' : `<button class="btn" onclick='act("undo",{id:${JSON.stringify(x.id)}},"Change undone")'>Undo</button>` });
+};
+window.views = views;
+window.cleanOne = async (id, label) => { if (!confirm(`Delete everything in "${label}"? Files in use are skipped.`)) return; toast('Cleaning ' + label + '…', 60000); try { const r = await api('clean', { id }); toast(`${label}: freed ${fmt(r.freed)}${r.failed ? `, ${r.failed} files in use skipped` : ''}`, 6000); } catch (e) { toast('⚠ ' + e.message, 6000); } views.clean(); };
+function adm() { $('#adm').innerHTML = isAdmin ? '<span style="color:var(--ok)">● Administrator</span>' : 'Standard user — some actions need admin.<button onclick="api(\'elevate\')">Restart as admin ↗</button>'; }
+async function show(v, keep) {
+  clearInterval(timer); view = v;
+  document.querySelectorAll('nav button[data-v]').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  if (!keep) M.innerHTML = '<div class="spin">Loading…</div>';
+  try { await views[v](); } catch (e) { M.innerHTML = `<div class="note">⚠ ${esc(e.message)}</div>`; }
+}
+document.querySelectorAll('nav button[data-v]').forEach(b => b.onclick = () => show(b.dataset.v));
+api('about').then(a => $('#ver').textContent = a.name + ' ' + a.version).catch(() => {});
+show(views[location.hash.slice(1)] ? location.hash.slice(1) : 'overview');
+</script></body></html>
