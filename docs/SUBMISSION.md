@@ -4,7 +4,8 @@ Steps marked **(you)** need your own account and identity and can't be automated
 
 ## 1. Create a developer account (you)
 1. Go to https://storedeveloper.microsoft.com and choose **Individual developer**.
-2. Sign in with a Microsoft account and verify your identity (a government ID and selfie check is typical).
+2. Sign in with a **personal** Microsoft account (Outlook/Hotmail/Live, or any email registered as a Microsoft account) and verify your identity (a government ID and selfie check is typical).
+   - Don't use the business signup on partner.microsoft.com, and don't create a work account (`...@yourname.onmicrosoft.com`). That route leads to programs like Cloud Solution Provider, which are for companies and can't publish Store apps. In Partner Center, the program you want is **Windows and Xbox**.
 3. Check the fee shown at sign-up. Individual registration became free in 2025.
 
 ## 2. Reserve the name (you)
