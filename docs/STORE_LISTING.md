@@ -5,11 +5,15 @@ Paste these into Partner Center → your app → Submission → Store listings �
 ## Product name
 Sysight
 
+ASO tip: the name is the strongest Microsoft Store ranking signal. In Partner Center → Product management → Manage app names, reserve a second name **"Sysight: Task Manager & Startup Manager"** (39 chars) and pick it in the Store listing. It keeps the brand first and adds the two highest-intent terms.
+
 ## Short description (max 100 chars, used on some surfaces)
-See every process, service, kernel driver and startup app on your PC, and take back disk space.
+Task manager, startup manager and disk cleaner for Windows, with kernel driver viewer and undo.
 
 ## Description
-Sysight shows you everything running on your Windows PC in one place, and lets you act on it safely.
+Sysight is a task manager, startup manager and disk cleaner for Windows 10 and 11. See every process, service, kernel driver and startup app on your PC, find what is filling your drive, and undo the service and startup changes you make. It works offline and collects no data.
+
+It replaces several system tools: Task Manager, the Services console, startup checkers, a disk space analyzer and a PC cleaner.
 
 **See everything**
 • Live CPU, memory and drive usage
@@ -53,21 +57,25 @@ Blocks changes to key Windows processes and services
 No telemetry, works offline
 
 ## Search terms (max 7)
-task manager, system monitor, startup manager, disk cleanup, services, drivers, pc cleaner
+task manager, startup manager, pc cleaner, disk space analyzer, service manager, driver viewer, system monitor
+(7 terms, each under 30 chars. Don't add competitor product names; the Store treats that as misleading metadata.)
 
 ## Category
 Utilities & tools → (subcategory) System utilities / Security if offered
 
 ## Screenshots (1366×768, in this order)
-docs/screenshots/01-overview.png  – "Your whole PC at a glance"
-docs/screenshots/02-procs.png     – "Every process, who made it, what it uses"
-docs/screenshots/03-drivers.png   – "See which drivers run in the kernel"
-docs/screenshots/04-services.png  – "Tame background services"
-docs/screenshots/05-startup.png   – "Choose what starts with Windows"
-docs/screenshots/06-storage.png   – "Find what's filling your drive"
-docs/screenshots/07-clean.png     – "Clear caches safely"
-docs/screenshots/08-changes.png   – "Undo any change"
+docs/screenshots/01-overview.png  – "Task manager for Windows: CPU, memory and drives at a glance"
+docs/screenshots/02-procs.png     – "Process manager: every process, its publisher and what it uses"
+docs/screenshots/03-drivers.png   – "Kernel driver viewer with signer and risk flags"
+docs/screenshots/04-services.png  – "Service manager: stop or disable background services"
+docs/screenshots/05-startup.png   – "Startup manager: choose what starts with Windows"
+docs/screenshots/06-storage.png   – "Disk space analyzer: find what fills your drive"
+docs/screenshots/07-clean.png     – "PC cleaner for temp files and app caches"
+docs/screenshots/08-changes.png   – "Undo service and startup changes in one click"
 All screenshots use built-in sample data (no real machine names or user paths).
+
+## Website
+https://niksheyyadav.github.io/sysight/ (paste into Properties → Website)
 
 ## Store logo
 docs/store-logo-300.png (300×300). Partner Center also accepts the 1:1 box art at 1080×1080 if you want to add it later.

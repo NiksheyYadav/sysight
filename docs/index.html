@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sysight: Windows Task Manager, Startup &amp; Driver Manager</title>
+<meta name="description" content="Sysight shows every process, service, kernel driver and startup app on your Windows PC, finds what fills your drive, and lets you undo changes. No telemetry.">
+<link rel="canonical" href="https://niksheyyadav.github.io/sysight/">
+<link rel="icon" type="image/png" href="store-logo-300.png">
+<meta name="theme-color" content="#0f141a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sysight: see and control everything running on your PC">
+<meta property="og:description" content="Process, service, kernel driver and startup manager for Windows 10 and 11, with disk space explorer, cache cleanup and one-click undo.">
+<meta property="og:url" content="https://niksheyyadav.github.io/sysight/">
+<meta property="og:image" content="https://niksheyyadav.github.io/sysight/screenshots/01-overview.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"SoftwareApplication","name":"Sysight","operatingSystem":"Windows 10, Windows 11","applicationCategory":"UtilitiesApplication","applicationSubCategory":"System utility",
+ "description":"Windows task manager, startup manager, service manager and kernel driver viewer with disk space explorer, cache cleanup and one-click undo.",
+ "url":"https://niksheyyadav.github.io/sysight/","downloadUrl":"https://apps.microsoft.com/detail/9N08SD3GQ1N8","image":"https://niksheyyadav.github.io/sysight/store-logo-300.png",
+ "screenshot":"https://niksheyyadav.github.io/sysight/screenshots/01-overview.png","softwareVersion":"1.0.0","author":{"@type":"Person","name":"astrosurfr"},
+ "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+{"@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"How is Sysight different from Windows Task Manager?","acceptedAnswer":{"@type":"Answer","text":"Task Manager shows processes and startup apps. Sysight also shows every service with its publisher and account, every kernel driver with its signer and risk flags, network connections by app, folder sizes, and keeps a change history so you can undo service and startup changes."}},
+ {"@type":"Question","name":"Is Sysight safe to use?","acceptedAnswer":{"@type":"Answer","text":"Sysight blocks ending key Windows processes and changing Microsoft services, shows kernel drivers read-only, and records service and startup changes so you can undo them. Ending a process and cache cleanup can't be undone, and Sysight asks before both."}},
+ {"@type":"Question","name":"Does Sysight collect my data?","acceptedAnswer":{"@type":"Answer","text":"No. Sysight has no accounts, analytics or telemetry and makes no network requests. Everything it reads stays on your PC."}},
+ {"@type":"Question","name":"How do I see which kernel drivers are running on Windows?","acceptedAnswer":{"@type":"Answer","text":"Open Sysight and choose Kernel drivers. It lists every driver loaded into the Windows kernel with its vendor, digital signer, start type and flags for drivers that access hardware directly, filter network traffic or watch file access."}},
+ {"@type":"Question","name":"How do I stop apps from starting with Windows?","acceptedAnswer":{"@type":"Answer","text":"In Sysight, open Startup and click Disable next to the app. It uses the same switch as Task Manager, and you can turn it back on from Startup or undo it in Change history."}},
+ {"@type":"Question","name":"Does Sysight need administrator rights?","acceptedAnswer":{"@type":"Answer","text":"No. It runs as a standard user and shows everything it can read. Starting, stopping or disabling services needs admin rights, which you can grant with Restart as admin."}}
+]}]}
+</script>
+<style>
+:root{--bg:#f4f6f9;--surface:#fff;--fg:#141b24;--muted:#5a6778;--line:#dce3ec;--accent:#c4620f;--accent-fg:#fff;--blue:#2f6fb0;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0d1117;--surface:#151b23;--fg:#e4e9ef;--muted:#94a2b2;--line:#252e3a;--accent:#f0a347;--accent-fg:#1a1200;--blue:#6aa7ff;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 "Segoe UI Variable","Segoe UI",system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header.top{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:inherit;text-decoration:none}
+.logo img{width:34px;height:34px;border-radius:8px}
+nav a{color:var(--muted);text-decoration:none;margin-left:18px;font-size:15px}
+.hero{padding:48px 0 32px;display:grid;gap:22px}
+h1{font-size:clamp(32px,5vw,52px);line-height:1.1;margin:0;letter-spacing:-.8px;text-wrap:balance;max-width:20ch}
+.lede{font-size:clamp(18px,2.2vw,21px);color:var(--muted);max-width:60ch;margin:0}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{display:inline-block;padding:13px 22px;border-radius:9px;font-weight:600;text-decoration:none}
+.btn.primary{background:var(--accent);color:var(--accent-fg)}
+.btn.ghost{border:1px solid var(--line);color:var(--fg)}
+.small{font-size:14px;color:var(--muted)}
+.shot{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);display:block}
+section{padding:44px 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(24px,3vw,32px);margin:0 0 10px;text-wrap:balance}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:28px;margin-top:26px}
+.feat article{display:flex;flex-direction:column;gap:10px}
+.feat h3{margin:6px 0 0;font-size:19px}
+.feat p{margin:0;color:var(--muted)}
+.cmp{width:100%;border-collapse:collapse;font-size:15px;margin-top:18px}
+.cmp th,.cmp td{text-align:left;padding:10px;border-bottom:1px solid var(--line)}
+.cmp td:nth-child(n+2),.cmp th:nth-child(n+2){text-align:center}
+.tbl{overflow-x:auto}
+details{border-bottom:1px solid var(--line);padding:14px 0}
+summary{font-weight:600;cursor:pointer}
+details p{color:var(--muted);margin:8px 0 0}
+footer{padding:30px 0 50px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+footer a{color:inherit}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="logo" href="./"><img src="store-logo-300.png" alt="" width="34" height="34">Sysight</a>
+  <nav><a href="#features">Features</a><a href="#faq">FAQ</a><a href="https://github.com/NiksheyYadav/sysight">GitHub</a></nav>
+</header>
+
+<main>
+<div class="hero">
+  <h1>The Windows task manager that shows everything</h1>
+  <p class="lede">Sysight lists every process, service, kernel driver and startup app on your PC, shows what is filling your drive, and lets you undo the changes you make. It runs offline and collects no data.</p>
+  <div class="cta">
+    <a class="btn primary" href="https://apps.microsoft.com/detail/9N08SD3GQ1N8">Get it from Microsoft Store</a>
+    <a class="btn ghost" href="https://github.com/NiksheyYadav/sysight">View source on GitHub</a>
+    <span class="small">Windows 10 (2004+) and Windows 11 · x64</span>
+  </div>
+  <img class="shot" src="screenshots/01-overview.png" alt="Sysight overview showing live CPU, memory and drive usage on Windows" width="1367" height="768">
+</div>
+
+<section id="features">
+  <h2>One app instead of five system tools</h2>
+  <p class="small">Task Manager, Services, Autoruns-style startup checks, a disk space analyzer and a cleaner, in one window.</p>
+  <div class="feat">
+    <article><img class="shot" src="screenshots/02-procs.png" alt="Process list with publisher, CPU, memory and file path" width="1367" height="768" loading="lazy">
+      <h3>Process manager</h3><p>Every running process with its publisher, CPU use, memory and file location. End misbehaving apps; key Windows processes are protected.</p></article>
+    <article><img class="shot" src="screenshots/05-startup.png" alt="Startup manager listing apps that launch at Windows sign-in" width="1367" height="768" loading="lazy">
+      <h3>Startup manager</h3><p>See every app that launches when you sign in and switch it off with one click. Faster boot, nothing deleted.</p></article>
+    <article><img class="shot" src="screenshots/04-services.png" alt="Windows services list with publisher, start type and account" width="1367" height="768" loading="lazy">
+      <h3>Service manager</h3><p>Find third-party services running as SYSTEM in the background. Stop them, set them to Manual or disable them, then undo if needed.</p></article>
+    <article><img class="shot" src="screenshots/03-drivers.png" alt="Kernel driver viewer showing signer and risk flags" width="1367" height="768" loading="lazy">
+      <h3>Kernel driver viewer</h3><p>Every driver loaded into the Windows kernel, with its vendor and digital signer. Flags drivers with direct hardware access, network filters and file-system filters.</p></article>
+    <article><img class="shot" src="screenshots/06-storage.png" alt="Disk space analyzer showing folders sorted by size" width="1367" height="768" loading="lazy">
+      <h3>Disk space analyzer</h3><p>Drill into any drive by folder size to find what is eating your storage, then open it in File Explorer.</p></article>
+    <article><img class="shot" src="screenshots/08-changes.png" alt="Change history with undo buttons for service and startup changes" width="1367" height="768" loading="lazy">
+      <h3>Undo for every setting change</h3><p>Service and startup changes are logged with one-click undo. Cache cleanup clears temp files, browser caches, npm, pip and Windows Update downloads.</p></article>
+  </div>
+</section>
+
+<section>
+  <h2>Sysight vs Windows Task Manager</h2>
+  <div class="tbl"><table class="cmp">
+    <tr><th>What you can see or do</th><th>Task Manager</th><th>Sysight</th></tr>
+    <tr><td>Processes, CPU and memory</td><td>Yes</td><td>Yes</td></tr>
+    <tr><td>Startup apps on/off</td><td>Yes</td><td>Yes</td></tr>
+    <tr><td>Services with publisher and run-as account</td><td>Partial</td><td>Yes</td></tr>
+    <tr><td>Kernel drivers with signer and risk flags</td><td>No</td><td>Yes</td></tr>
+    <tr><td>Network connections by app</td><td>No</td><td>Yes</td></tr>
+    <tr><td>Folder-by-size disk analyzer</td><td>No</td><td>Yes</td></tr>
+    <tr><td>Cache cleanup</td><td>No</td><td>Yes</td></tr>
+    <tr><td>Undo service and startup changes</td><td>No</td><td>Yes</td></tr>
+  </table></div>
+</section>
+
+<section id="faq">
+  <h2>Questions</h2>
+  <details><summary>How is Sysight different from Windows Task Manager?</summary><p>Task Manager shows processes and startup apps. Sysight also shows every service with its publisher and account, every kernel driver with its signer and risk flags, network connections by app, folder sizes, and keeps a change history so you can undo service and startup changes.</p></details>
+  <details><summary>Is Sysight safe to use?</summary><p>Sysight blocks ending key Windows processes and changing Microsoft services, shows kernel drivers read-only, and records service and startup changes so you can undo them. Ending a process and cache cleanup can't be undone, and Sysight asks before both.</p></details>
+  <details><summary>Does Sysight collect my data?</summary><p>No. Sysight has no accounts, analytics or telemetry and makes no network requests. Everything it reads stays on your PC. See the <a href="privacy.html">privacy policy</a>.</p></details>
+  <details><summary>How do I see which kernel drivers are running on Windows?</summary><p>Open Sysight and choose Kernel drivers. It lists every driver loaded into the Windows kernel with its vendor, digital signer, start type and flags for drivers that access hardware directly, filter network traffic or watch file access.</p></details>
+  <details><summary>How do I stop apps from starting with Windows?</summary><p>In Sysight, open Startup and click Disable next to the app. It uses the same switch as Task Manager, and you can turn it back on from Startup or undo it in Change history.</p></details>
+  <details><summary>Does Sysight need administrator rights?</summary><p>No. It runs as a standard user and shows everything it can read. Starting, stopping or disabling services needs admin rights, which you can grant with Restart as admin.</p></details>
+</section>
+</main>
+
+<footer>
+  <p>Sysight by astrosurfr · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="https://github.com/NiksheyYadav/sysight">Source</a></p>
+  <p>Microsoft, Windows and Microsoft Edge are trademarks of the Microsoft group of companies. Sysight is not affiliated with Microsoft.</p>
+</footer>
+</div>
+</body>
+</html>
